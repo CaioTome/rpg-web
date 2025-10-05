@@ -1,78 +1,57 @@
-# **RPG de Texto \- Web Edition ⚔️**
+# **⚔️ RPG de Texto: Web Edition ⚔️**
 
-Este é um projeto minimalista de um RPG de texto construído como ferramenta de aprendizado e portfólio. Ele demonstra a integração de um framework web (Flask), um banco de dados relacional (SQLite) e a aplicação de boas práticas de Engenharia de Software, como a **Arquitetura de 3 Camadas**.
+Aplicação web minimalista de RPG de texto construída em Python com o framework Flask e persistência de dados utilizando SQLite. O foco principal deste projeto é demonstrar a aplicação de **boas práticas de Engenharia de Software**, arquitetura limpa e o padrão CRUD (Create, Read, Update, Delete).
 
-## **🚀 Status do Projeto e Funcionalidades**
+## **💡 Escolhas de Tecnologias**
 
-O projeto está em desenvolvimento ativo, focado em implementar o ciclo completo do CRUD (Create, Read, Update, Delete) com lógica de jogo real.
+| Tecnologia | Finalidade | Justificativa de Escolha |
+| ----- | ----- | ----- |
+| **Python 3** | Linguagem de Back-end. | Simplicidade, facilidade de prototipagem e vasto ecossistema. |
+| **Flask** | Micro-Framework Web. | Leveza e minimalismo. Escolhido para focar na arquitetura pura da aplicação em vez de abstrações complexas. |
+| **SQLite** | Banco de Dados. | Utilizado para persistência local dos dados, ideal para ambientes de desenvolvimento. |
+| **Flask-SQLAlchemy** | ORM (Mapeador Objeto-Relacional). | Abstrai a manipulação de dados em Python. |
+| **Bootstrap 5** | Front-end/CSS. | Usado para garantir uma interface visual rápida e responsiva. |
 
-### **Funcionalidades Atuais (Etapas 1-3)**
+## **🏗️ Arquitetura, Padrões e Decisões de Engenharia de Software**
 
-* **Criação de Personagens (CREATE):** Formulário para nomear o herói com persistência inicial de atributos.  
-* **Persistência de Dados (SQLite):** Utilização do Flask-SQLAlchemy (ORM) para salvar e carregar personagens permanentemente.  
-* **Listagem de Heróis (READ):** Tela para visualizar todos os personagens criados e seus atributos.  
-* **Estrutura Profissional:** Código organizado em arquitetura de 3 camadas.
+O projeto é estruturado seguindo o princípio de **Separação de Preocupações**, utilizando uma Arquitetura de 3 Camadas e aplicando Padrões de Projeto específicos.
 
-### **Próximas Funcionalidades (Etapa 4 em diante)**
+### **Padrões de Projeto Utilizados**
 
-* **Combate (UPDATE):** Implementação da lógica de rolagem de dados e cálculo de dano, com atualização da vida no banco.  
-* **Exclusão de Personagens (DELETE):** Rota para remover heróis.
+#### **1\. DAO (Data Access Object) / Service Layer**
 
-## **📐 Arquitetura do Projeto (3 Camadas)**
+* **Onde é Aplicado:** No arquivo `services.py`.  
+* **Decisão:** O DAO isola a lógica de acesso ao banco de dados (o `db.session` e o ORM). A **Camada de Serviço** encapsula esse DAO, adicionando a **Lógica de Negócio** (ex: o cálculo de dano na função `combater_inimigo`).  
+* **Benefício:** Se o banco de dados mudar (ex: de SQLite para PostgreSQL), ou se o ORM mudar, apenas o `services.py` e `models.py` precisam ser ajustados, deixando as rotas (`app.py`) inalteradas.
 
-O projeto segue o princípio de Separação de Preocupações, dividindo o código em camadas lógicas:
+#### **2\. Model-View-Controller (MVC)**
 
-1. **Apresentação (`app.py` / `templates/`):** Lida com as rotas HTTP e a interface do usuário (HTML).  
-2. **Lógica de Negócio (Implícito em `app.py` e `models.py`):** Define as regras do jogo e a manipulação dos dados (Ex: definição de atributos iniciais, futuros cálculos de ataque).  
-3. **Acesso a Dados (`config.py` / `models.py`):** Responsável pela conexão e mapeamento do banco de dados (SQLite via Flask-SQLAlchemy).
+* **Onde é Aplicado:** Na divisão geral do projeto.  
+* **Adaptação Flask:**  
+  * **Model:** O `models.py` (estrutura dos dados).  
+  * **View:** Os arquivos HTML em `templates/` (o que o usuário vê).  
+  * **Controller:** O `app.py` e, em parte, o `services.py` (onde a requisição é recebida e a lógica de ação é disparada).
 
-**Estrutura de Arquivos:**
+### **Estrutura em Camadas**
 
-/seu\_projeto  
-├── app.py              \# Camada de Apresentação (Rotas)  
-├── config.py           \# Configuração da Aplicação e Banco (Inicialização)  
-├── models.py           \# Camada de Acesso a Dados (Modelo Personagem / ORM)  
-├── templates/          \# Apresentação (Templates HTML)  
-├── static/             \# Apresentação (Estilos CSS)  
-└── rpg\_db.sqlite       \# Banco de Dados (Gerado automaticamente)
+| Camada | Arquivos | Responsabilidade |
+| ----- | ----- | ----- |
+| **Apresentação (Controller/View)** | `app.py`, `templates/` | Recebe a requisição, coleta dados do formulário (`request.form`) e exibe o resultado. Não contém lógica de persistência. |
+| **Serviço (Lógica de Negócio)** | `services.py` | Regras do jogo (rolagem de dado, cálculo de dano) e orquestração do acesso a dados via DAO. |
+| **Acesso a Dados (Model)** | `models.py`, `config.py` | Mapeamento da classe `Personagem` para a tabela do SQLite (ORM). |
 
-## **🛠️ Instalação e Execução**
+## **⚙️ Como Executar o Projeto**
 
-### **Pré-requisitos**
+Siga estes passos no seu terminal (com o `venv` ativado):
 
-* Python 3.13
+1. **Ative o Ambiente Virtual (`venv`):**  
+   * Windows (CMD): `venv\Scripts\activate.bat`  
+   * Linux/macOS (Bash): `source venv/bin/activate`
 
-### **1\. Clonar o Repositório (ou criar os arquivos)**
-
-\# Se estiver usando Git  
-git clone \<URL\_DO\_SEU\_REPO\>  
-cd \<nome\_do\_seu\_repo\>
-
-### **2\. Configurar o Ambiente Virtual**
-
-É obrigatório o uso de um ambiente virtual (venv) para isolar as dependências.
-
-python \-m venv venv
-
-### **3\. Ativar o Ambiente e Instalar Dependências**
-
-Certifique-se de que o seu `venv` está ativo.
-
-| Sistema Operacional | Comando de Ativação |
-| ----- | ----- |
-| Windows (CMD) | `venv\Scripts\activate.bat` |
-| macOS/Linux | `source venv/bin/activate` |
-
-Instale os pacotes necessários:
-
-pip install Flask
-
-pip install flask_sqlalchemy
-
-### **4\. Executar a Aplicação**
-
-O Flask irá criar o arquivo `rpg_db.sqlite` automaticamente na primeira execução.
-
+**Rode o Servidor:**  
 python app.py
 
-Acesse a aplicação no seu navegador: **`http://127.0.0.1:5000/`**
+2.   
+3. **Acesse:** Abra seu navegador e acesse `http://127.0.0.1:5000/`.
+
+**NOTA:** Se você alterou a estrutura do banco (`models.py`), certifique-se de **deletar o arquivo `rpg_db.sqlite`** antes de rodar o `python app.py` novamente.
