@@ -3,42 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personagens Salvos</title>
-    <!-- Incluindo Bootstrap para classes utilitárias -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Link para nosso arquivo CSS externo, aplicando Separação de Preocupações -->
+    <title>Lista de Heróis</title>
+    <!-- Link para o arquivo CSS externo (Separação de Preocupações) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Usando a classe lista-container para aplicar o estilo de listagem do CSS externo -->
-    <div class="container lista-container">
-        <h1 class="text-center">Personagens Salvos no Reino</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Seus Heróis</h1>
 
         {% if personagens %}
-            <div class="row">
+            <div class="row g-4">
                 <!-- Loop que passa por cada objeto Personagem na lista 'personagens' -->
                 {% for personagem in personagens %}
                     <div class="col-md-6 col-lg-4">
-                        <div class="card p-3">
+                        <div class="card p-3 shadow-sm h-100">
                             <h5 class="card-title">{{ personagem.nome }} (ID: {{ personagem.id }})</h5>
+                            <hr>
                             <div class="stats">
-                                <p>Vida: <span>{{ personagem.vida }}</span></p>
-                                <p>Força: <span>{{ personagem.forca }}</span></p>
+                                <p>Vida: <span class="badge bg-{{ 'danger' if personagem.vida <= 0 else 'success' }}">{{ personagem.vida }}</span></p>
+                                <p>Ataque: <span class="badge bg-danger">{{ personagem.ataque }}</span></p>
+                                <p>Defesa: <span class="badge bg-primary">{{ personagem.defesa }}</span></p> 
                             </div>
-                            <!-- Futuro link para a rota de batalha -->
-                            <a href="#" class="btn btn-sm btn-info mt-2">Continuar Aventura</a>
+                            
+                            <!-- Botão de Ação -->
+                            <div class="mt-3">
+                                {% if personagem.vida > 0 %}
+                                    <a href="{{ url_for('batalha', personagem_id=personagem.id) }}" class="btn btn-info w-100">
+                                        Continuar Aventura
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary w-100" disabled>Nocauteado (Vida 0)</button>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
             <div class="alert alert-warning text-center" role="alert">
-                Nenhum herói encontrado. Crie o seu primeiro herói agora!
+                Nenhum herói encontrado. <a href="{{ url_for('criar_personagem') }}">Crie um novo herói!</a>
             </div>
         {% endif %}
 
-        <hr class="my-4">
-        <p class="text-center"><a href="{{ url_for('criar_personagem') }}" class="btn btn-success">Criar Novo Herói</a></p>
+        <p class="text-center mt-5">
+            <a href="{{ url_for('criar_personagem') }}" class="btn btn-lg btn-secondary">Criar Novo Personagem</a>
+        </p>
     </div>
 </body>
 </html>
