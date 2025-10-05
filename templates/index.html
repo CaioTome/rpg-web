@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 40px;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            text-align: center;
+        }
+        h1 {
+            color: #4CAF50; /* Verde RPG */
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seu RPG de Texto</h1>
+    <!-- A variável 'heroi' vem do nosso app.py -->
+    <p>Olá, **{{ heroi }}**! Você acessou sua primeira página dinâmica.</p>
+    <p>O servidor está funcionando e o template está sendo renderizado com sucesso.</p>
+
+    <p><a href="/" style="color: #4CAF50;">Voltar para o Olá Mundo simples (/)</a></p>
+</body>
+</html>

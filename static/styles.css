@@ -1,0 +1,67 @@
+    /* * Estilos para a aplicação RPG de Texto
+ * Aplicando o princípio de Separação de Preocupações (Structure vs. Style)
+ */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #212529; /* Fundo Escuro Comum */
+    color: #f8f9fa; /* Texto Claro Comum */
+    padding-top: 50px;
+}
+
+/* Estilo para todos os botões de sucesso */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* Estilo para links de navegação */
+a {
+    color: #17a2b8; /* Azul Informação */
+    text-decoration: none;
+}
+
+/* Estilo do container de formulário (Página /criar) */
+.form-container {
+    max-width: 600px;
+    background-color: #343a40;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    margin: 0 auto; /* Centraliza */
+}
+
+.form-container h1 {
+    color: #28a745; /* Verde Sucesso para Título de Criação */
+    margin-bottom: 25px;
+}
+
+/* Estilos Específicos para a Listagem de Personagens (Página /lista) */
+.lista-container h1 {
+    color: #17a2b8; /* Azul Informação para Título da Lista */
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #343a40;
+    border: 1px solid #495057;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.card-title {
+    color: #28a745;
+    border-bottom: 1px solid #495057;
+    padding-bottom: 10px;
+}
+
+.stats p {
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.stats span {
+    font-weight: bold;
+    color: #ffc107; /* Amarelo de Alerta para Destaque de Stats */
+}
+    
